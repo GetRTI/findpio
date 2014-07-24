@@ -1,0 +1,23 @@
+{
+  "name": "getrti-backend",
+  "version": "0.0.0",
+  "description": "backend for the site getrti.org",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/uniquerockrz/getrti-backend.git"
+  },
+  "author": "Saurav Modak",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/uniquerockrz/getrti-backend/issues"
+  },
+  "homepage": "https://github.com/uniquerockrz/getrti-backend",
+  "dependencies": {
+    "express": "^4.6.1",
+    "mongodb": "^1.4.7"
+  }
+}

@@ -1,0 +1,37 @@
+var express = require('express');
+
+var app = express();
+var port = 3000;
+
+var mongodb = require("mongodb").MongoClient;
+var format = require("util").format;
+
+app.get('/search/:keyword', function(req, res){
+	res.status(200);
+	res.set('Content-Type', 'application/json');
+
+	mongodb.connect("mongodb://127.0.0.1:27017/test", function(err, db){
+		if(err){
+			throw err;
+		}
+
+		var collection = db.collection('students');
+		collection.find({ 
+			$text: { 
+				$search: req.params.keyword
+			} 
+		}, { 
+			score: { 
+				$meta: "textScore" 
+			} 
+		}).sort( { score: { $meta: "textScore" } } ).toArray(function(err, results){
+			console.log(results.length);
+			res.send(results);
+		});
+	});
+});
+
+app.listen(port, function(){
+	console.log("Server running in port %s", port);
+});
+
