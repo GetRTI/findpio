@@ -25,13 +25,18 @@ app.get('/search/:keyword', function(req, res){
 				$meta: "textScore" 
 			} 
 		}).sort( { score: { $meta: "textScore" } } ).toArray(function(err, results){
-			console.log(results.length);
 			res.send(results);
 		});
 	});
 });
 
+app.get('/hello', function(req, res){
+	res.status(200);
+	res.set('Content-Type', 'text/html');
+
+	res.send("<h1>Hello, World!</h1>");
+});
+
 app.listen(port, function(){
 	console.log("Server running in port %s", port);
 });
-
