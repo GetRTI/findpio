@@ -16,9 +16,10 @@ app.get('/search/:keyword', function(req, res){
 		}
 
 		var collection = db.collection('pio');
+		var keyword = req.params.keyword.replace("+", " "); 
 		collection.find({ 
 			$text: { 
-				$search: req.params.keyword
+				$search: keyword
 			} 
 		}, { 
 			score: { 
