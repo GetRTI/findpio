@@ -10,12 +10,12 @@ app.get('/search/:keyword', function(req, res){
 	res.status(200);
 	res.set('Content-Type', 'application/json');
 
-	mongodb.connect("mongodb://127.0.0.1:27017/test", function(err, db){
+	mongodb.connect("mongodb://127.0.0.1:27017/getrti", function(err, db){
 		if(err){
 			throw err;
 		}
 
-		var collection = db.collection('students');
+		var collection = db.collection('pio');
 		collection.find({ 
 			$text: { 
 				$search: req.params.keyword
