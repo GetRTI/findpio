@@ -28,6 +28,25 @@ app.get('/search/:keyword', function(req, res){
 		}).sort( { score: { $meta: "textScore" } } ).toArray(function(err, results){
 			res.send(results);
 		});
+
+		db.close();
+	});
+});
+
+app.get('/logs', function(req, res){
+	mongodb.connect("mongodb://127.0.0.1:27017/getrti", function(err, db){
+		if(err){
+			throw err;
+		}
+
+		var collection = db.collection('system.profile');
+
+		collection.find().toArray(function(err, results){
+			res.send(results);
+		});
+
+		db.close();
+		
 	});
 });
 
