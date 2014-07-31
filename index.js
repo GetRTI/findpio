@@ -17,15 +17,30 @@ app.get('/search/:keyword', function(req, res){
 
 		var collection = db.collection('pio');
 		var keyword = req.params.keyword.replace("+", " "); 
-		collection.find({ 
-			$text: { 
-				$search: keyword
-			} 
-		}, { 
-			score: { 
-				$meta: "textScore" 
-			} 
-		}).sort( { score: { $meta: "textScore" } } ).toArray(function(err, results){
+		collection.aggregate([
+		{
+			$match : {
+				$text : {
+					$search : keyword
+				}
+			}
+		}, 
+		{
+			$project : {
+				name : 1,
+				_id : 0,
+				score : {
+					$meta : "textScore"
+				}
+			}
+		},
+		{
+			$match : {
+				score : {
+					$gt : 1.0
+				}
+			}
+		}]).toArray(function(err, results){
 			res.send(results);
 		});
 	});
