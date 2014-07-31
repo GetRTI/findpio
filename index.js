@@ -19,49 +19,44 @@ app.get('/search/:keyword', function(req, res){
 		var keyword = req.params.keyword.replace("+", " "); 
 		collection.aggregate([
 		{
-			$match : {
-				$text : {
-					$search : keyword
-				}
-			}
+       		$match : {
+            	$text : {
+                       $search : "Urban Development Chennai"
+               	}
+       		}
 		}, 
 		{
-			$project : {
-				name : 1,
-				_id : 0,
-				score : {
-					$meta : "textScore"
-				}
-			}
-		},
+       		$project : {
+            	name : 1,
+               	_id : 0,
+               	address : 1,
+               	city : 1,
+               	country : 1,
+               	department : 1,
+               	designation : 1,
+               	email : 1,
+               	fax : 1,
+               	phone : 1,
+               	state : 1,
+               	url : 1,
+               	score : {
+                       $meta : "textScore"
+               	}
+       		}
+		}, 
 		{
-			$match : {
-				score : {
-					$gt : 1.0
-				}
+       		$match : {
+            	score : {
+                       $gt : 1.0
+               	}
+       		}
+		}], 
+		function(err, results){
+			if(err){
+				throw err;
 			}
-		}]).toArray(function(err, results){
-			res.send(results);
+			res.send(results);			
 		});
-
-		db.close();
-	});
-});
-
-app.get('/logs', function(req, res){
-	mongodb.connect("mongodb://127.0.0.1:27017/getrti", function(err, db){
-		if(err){
-			throw err;
-		}
-
-		var collection = db.collection('system.profile');
-
-		collection.find().toArray(function(err, results){
-			res.send(results);
-		});
-
-		db.close();
-		
 	});
 });
 
