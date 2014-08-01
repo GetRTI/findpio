@@ -126,6 +126,48 @@ To stop the node
 forever stop index.js
 ```
 
+## Mongodb Setup
+
+After setting up Mongodb on your system, import the collection.json file, which has the list of PIOs. Instructions to setup mongodb here- http://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/
+Note that, this command is to be used in your system terminal. Not the mongodb terminal.
+```
+mongoimport --db getrti --collection pio --type json --file /usr/share/nginx/html/getrti-frontend/collection.json --jsonArray
+```
+
+Index all fields in the collection. 
+```
+	db.pio.ensureIndex({
+		"$**" : "text"
+	}, {
+		name : "PIO"
+	})
+```
+Test if everything went smooth using the following query.
+```
+db.pio.aggregate([{
+	$match : {
+		$text : {
+			$search : "Urban Development Chennai"
+		}
+	}
+}, {
+	$project : {
+		name : 1,
+		_id : 0,
+		score : {
+			$meta : "textScore"
+		}
+	}
+}, {
+	$match : {
+		score : {
+			$gt : 1.0
+		}
+	}
+}])
+```
+
+
 # API Usage
 
 Check if the server has been installed correctly
