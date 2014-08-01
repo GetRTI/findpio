@@ -134,7 +134,8 @@ Note that, this command is to be used in your system terminal. Not the mongodb t
 mongoimport --db getrti --collection pio --type json --file /usr/share/nginx/html/getrti-frontend/collection.json --jsonArray
 ```
 
-Index all fields in the collection. 
+Index all fields in the collection using the following command in your mongo terminal. To start a mongo terminal type 'mongod' and then 'mongo'
+
 ```
 	db.pio.ensureIndex({
 		"$**" : "text"
