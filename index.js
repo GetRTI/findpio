@@ -21,7 +21,7 @@ app.get('/search/:keyword', function(req, res){
 		{
        		$match : {
             	$text : {
-                       $search : "Urban Development Chennai"
+                       $search : keyword
                	}
        		}
 		}, 
